@@ -10,6 +10,9 @@ WIDTH = 1300
 HEIGHT = 1000
 NUM_OF_ENEMIES = 5
 
+PLAYER_SPEED = 15
+BULLET_SPEED = 20
+ENEMY_SPEED = 1
 
 
 #------------------------Setup screen------------------------
@@ -63,7 +66,7 @@ player.setheading(90)
 
 
 # Define player movements
-playerSpeed = 15
+playerSpeed = PLAYER_SPEED
 
 def moveLeft():
     x = player.xcor()
@@ -89,7 +92,7 @@ bullet.setheading(90)
 
 
 # Define bullet movement
-bulletSpeed = 20
+bulletSpeed = BULLET_SPEED
 bulletState = "ready"       # 1. ready - ready to be fired      2. fired - bullet is travelling
 
 def fireBullet():
@@ -142,10 +145,9 @@ for i in range(NUM_OF_ENEMIES):
     enemies.append(enemy)
 
 # Define Enemy movements
-enemySpeed = 1
+enemySpeed = ENEMY_SPEED
 
 while True:
-
     # move enemy Left
     for enemy in enemies:
         x = enemy.xcor()
