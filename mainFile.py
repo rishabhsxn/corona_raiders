@@ -31,6 +31,16 @@ for parallel_sides in range(2):
 pen.hideturtle()
 
 
+#------------------------Setup Score------------------------
+score = 0
+scorePen = turtle.Turtle()
+scorePen.speed(0)
+scorePen.color("white")
+scorePen.penup()
+scorePen.setposition(-540, 370)
+scoreString = "Score: %s" %score
+scorePen.write(scoreString, False, align="left", font=("Arial", 14, "normal"))
+scorePen.hideturtle()
 
 #------------------------Create main Player------------------------
 
@@ -150,6 +160,12 @@ while True:
             x = random.randint(-520, 520)
             y = random.randint(240, 280)
             enemy.setposition(x, y)
+
+            # Update the score
+            score += 10
+            scoreString = "Score: %s" %score
+            scorePen.clear()
+            scorePen.write(scoreString, False, align="left", font=("Arial", 14, "normal"))
 
         # TODO: check collision between Enemies and Player + Handle GameOver
         
