@@ -11,14 +11,16 @@ HEIGHT = 1000
 NUM_OF_ENEMIES = 5
 
 
-#------------------------Register Shapes------------------------
-turtle.register_shape("corona.gif")
 
 #------------------------Setup screen------------------------
 screen = turtle.Screen()
 screen.setup(WIDTH, HEIGHT)
 screen.bgcolor("black")
 screen.title("Corona Raiders")
+
+#------------------------Register Shapes------------------------
+# turtle.register_shape("corona.gif")
+screen.register_shape("corona.gif")
 
 pen = turtle.Turtle()
 pen.speed(0)
@@ -41,7 +43,7 @@ scorePen.speed(0)
 scorePen.color("white")
 scorePen.penup()
 scorePen.setposition(-540, 370)
-scoreString = "Score: %s" %score
+scoreString = "Score: {}".format(score)
 scorePen.write(scoreString, False, align="left", font=("Arial", 14, "normal"))
 scorePen.hideturtle()
 
@@ -104,10 +106,10 @@ def fireBullet():
 
 
 # key bindings
-turtle.listen()
-turtle.onkey(moveLeft, "a")
-turtle.onkey(moveRight, "d")
-turtle.onkey(fireBullet, "space")
+screen.listen()
+screen.onkeypress(moveLeft, "a")
+screen.onkeypress(moveRight, "d")
+screen.onkeypress(fireBullet, "space")
 
 
 
@@ -168,7 +170,7 @@ while True:
 
             # Update the score
             score += 10
-            scoreString = "Score: %s" %score
+            scoreString = "Score: {}".format(score)
             scorePen.clear()
             scorePen.write(scoreString, False, align="left", font=("Arial", 14, "normal"))
 
@@ -193,4 +195,4 @@ while True:
 
 
 
-delay = input("Press Enter to finish!")
+# delay = input("Press Enter to finish!")
