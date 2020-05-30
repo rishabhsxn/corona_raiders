@@ -95,6 +95,7 @@ def fireBullet():
 
     # fire the bullet only when it is in the ready state
     if bulletState == "ready":
+        os.system("aplay laser.wav&")
         bulletState = "fired"
         x = player.xcor()
         y = player.ycor()
@@ -154,6 +155,7 @@ while True:
 
             
         if isCollided(enemy, bullet):
+            os.system("aplay explosion.wav&")
             # reset bullet
             bullet.hideturtle()
             bulletState = "ready"
