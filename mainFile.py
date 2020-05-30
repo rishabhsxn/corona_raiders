@@ -6,6 +6,8 @@ import os
 import math
 import random
 
+soundFlag = 0
+
 # for cross-platform sound
 import platform
 
@@ -106,10 +108,17 @@ bulletState = "ready"       # 1. ready - ready to be fired      2. fired - bulle
 
 def fireBullet():
     global bulletState      # global is used so that we modify the variable globally
-
+    global soundFlag
+    
     # fire the bullet only when it is in the ready state
     if bulletState == "ready":
-        playSound("laser.wav")
+        if soundFlag == 0:
+            playSound("corona_go.wav")
+            soundFlag = 1
+        else:
+            playSound("go_corona.wav")
+            soundFlag = 0
+
         bulletState = "fired"
         x = player.xcor()
         y = player.ycor()
@@ -148,8 +157,6 @@ def isCollided(t1, t2):
 
 
 #------------------------Create Enemy------------------------
-    #TODO: Make the Enemy look like Corona Virus
-    #TODO: Make multiple copies of the Enemy
     #TODO: Make Enemy move in random directions
 
 # create multiple Enemies using List
