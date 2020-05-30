@@ -1,5 +1,10 @@
 # corona raiders
 
+# TODO: Add a House in which Enemy cannot enter
+# TODO: Add a Stay Home Stay Safe! message with changing color - green and red (depending on player's position in home or outside)
+# TODO: Change color of Player to green when corona hits and Add a cross to his face
+# TODO: Show the Game Over message when corona hits player
+
 #------------------------imports------------------------
 import turtle
 import os
@@ -23,7 +28,8 @@ NUM_OF_ENEMIES = 5
 
 PLAYER_SPEED = 15
 BULLET_SPEED = 20
-ENEMY_SPEED = 1
+ENEMY_SPEED_X = 1
+ENEMY_SPEED_Y = 0.7
 
 
 #------------------------Setup screen------------------------
@@ -63,7 +69,7 @@ scorePen.hideturtle()
 
 #------------------------Create main Player------------------------
 
-    #TODO: Make player look like a human being
+    #TODO: Make player look like a human being with a hand sanitizer (gun)
 
 player = turtle.Turtle()
 player.color("white")
@@ -109,7 +115,7 @@ bulletState = "ready"       # 1. ready - ready to be fired      2. fired - bulle
 def fireBullet():
     global bulletState      # global is used so that we modify the variable globally
     global soundFlag
-    
+
     # fire the bullet only when it is in the ready state
     if bulletState == "ready":
         if soundFlag == 0:
@@ -146,6 +152,7 @@ def playSound(soundFile):
     else:
         os.system("afplay {}&".format(soundFile))
 
+
 #------------------------Define Collision function for 2 objects------------------------
 
 def isCollided(t1, t2):
@@ -157,37 +164,53 @@ def isCollided(t1, t2):
 
 
 #------------------------Create Enemy------------------------
-    #TODO: Make Enemy move in random directions
 
-# create multiple Enemies using List
+class Enemy:
+    def __init__(self, xSpeed, ySpeed):
+        self.speedX = xSpeed
+        self.speedY = ySpeed
+        self.x = random.randint(-520, 520)
+        self.y = random.randint(180, 280)
+        self.enemyTurtle = turtle.Turtle()
+        self.enemyTurtle.color("#43BE31")
+        self.enemyTurtle.shape("corona.gif")
+        self.enemyTurtle.penup()
+        self.enemyTurtle.speed(0)
+        self.enemyTurtle.setposition(self.x, self.y)
+
+    def move(self):
+        currentX = self.enemyTurtle.xcor()
+        currentY = self.enemyTurtle.ycor()
+
+        currentX += self.speedX
+        currentY += self.speedY
+
+        self.enemyTurtle.setposition(currentX, currentY)
+
+        if currentX > 530 or currentX < -530:
+            self.speedX *= -1
+        if currentY > 380 or currentY < -380:
+            self.speedY *= -1
+
+# create and store multiple Enemies using List
 enemies = []
 for i in range(NUM_OF_ENEMIES):
-    enemy = turtle.Turtle()
-    enemy.color("#43BE31")
-    enemy.shape("corona.gif")
-    enemy.penup()
-    enemy.speed(0)
-    x = random.randint(-520, 520)
-    y = random.randint(180, 280)
-    enemy.setposition(x, y)
+
+    directions = [-1, 1]
+    dirX = random.choice(directions)
+    dirY = random.choice(directions)
+    enemy = Enemy(dirX*ENEMY_SPEED_X, dirY*ENEMY_SPEED_Y)
+
     enemies.append(enemy)
 
-# Define Enemy movements
-enemySpeed = ENEMY_SPEED
 
 while True:
-    # move enemy Left
+    # move all enemies
     for enemy in enemies:
-        x = enemy.xcor()
-        x += enemySpeed
-        enemy.setx(x)
-
-        if x > 530 or x < -530:
-            enemySpeed *= -1
-
+        enemy.move()
             
-        if isCollided(enemy, bullet):
-            playSound("explosion.wav")
+        if isCollided(enemy.enemyTurtle, bullet):
+            playSound("pop.wav")
             # reset bullet
             bullet.hideturtle()
             bulletState = "ready"
@@ -196,7 +219,7 @@ while True:
             # TODO: reset enemies in different way - hide or remove
             x = random.randint(-520, 520)
             y = random.randint(240, 280)
-            enemy.setposition(x, y)
+            enemy.enemyTurtle.setposition(x, y)
 
             # Update the score
             score += 10
