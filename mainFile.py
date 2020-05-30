@@ -4,10 +4,11 @@
 import turtle
 import os
 import math
+import random
 
 WIDTH = 1300
 HEIGHT = 1000
-
+NUM_OF_ENEMIES = 5
 
 
 #------------------------Setup screen------------------------
@@ -111,12 +112,18 @@ def isCollided(t1, t2):
     #TODO: Make multiple copies of the Enemy
     #TODO: Make Enemy move in random directions
 
-enemy = turtle.Turtle()
-enemy.color("#43BE31")
-enemy.shape("circle")
-enemy.penup()
-enemy.speed(0)
-enemy.setposition(0, 280)
+# create multiple Enemies using List
+enemies = []
+for i in range(NUM_OF_ENEMIES):
+    enemy = turtle.Turtle()
+    enemy.color("#43BE31")
+    enemy.shape("circle")
+    enemy.penup()
+    enemy.speed(0)
+    x = random.randint(-520, 520)
+    y = random.randint(180, 280)
+    enemy.setposition(x, y)
+    enemies.append(enemy)
 
 # Define Enemy movements
 enemySpeed = 1
@@ -124,35 +131,42 @@ enemySpeed = 1
 while True:
 
     # move enemy Left
-    x = enemy.xcor()
-    x += enemySpeed
-    enemy.setx(x)
+    for enemy in enemies:
+        x = enemy.xcor()
+        x += enemySpeed
+        enemy.setx(x)
 
-    if x > 530 or x < -530:
-        enemySpeed *= -1
+        if x > 530 or x < -530:
+            enemySpeed *= -1
 
+            
+        if isCollided(enemy, bullet):
+            # reset bullet
+            bullet.hideturtle()
+            bulletState = "ready"
+            bullet.setposition(0, -420)
+            # reset enemy
+            # TODO: reset enemies in different way - hide or remove
+            x = random.randint(-520, 520)
+            y = random.randint(240, 280)
+            enemy.setposition(x, y)
+
+        # TODO: check collision between Enemies and Player + Handle GameOver
+        
+
+    # move bullet
     if bulletState == "fired":
         bulletY = bullet.ycor()
         bulletNewY = bulletY + bulletSpeed
         bullet.sety(bulletNewY)
 
+        # check if bullet hits top boundary
         if bulletNewY > 380: 
             bullet.hideturtle()
             bulletState = "ready"
             bullet.setposition(0, -420)
-        else:
-            if isCollided(enemy, bullet):
-                # reset bullet
-                bullet.hideturtle()
-                bulletState = "ready"
-                bullet.setposition(0, -420)
-                # reset enemy
-                # TODO: reset enemies in different way - hide or remove
-                enemySpeed=0
-                enemy.setposition(-540, 420)
 
-            # TODO: check collision between Enemies and Player + Handle GameOver
-
+    turtle.delay(5)     # this increase or decrease gameplay - Lower is faster
 
 
 
