@@ -3,6 +3,7 @@
 #------------------------imports------------------------
 import turtle
 import os
+import math
 
 WIDTH = 1300
 HEIGHT = 1000
@@ -95,6 +96,16 @@ turtle.onkey(fireBullet, "space")
 
 
 
+#------------------------Define Collision function for 2 objects------------------------
+
+def isCollided(t1, t2):
+    distance = math.sqrt(math.pow(t1.xcor() - t2.xcor(), 2) + math.pow(t1.ycor() - t2.ycor(), 2))
+    if distance < 15:
+        return True
+    else:
+        return False
+
+
 #------------------------Create Enemy------------------------
     #TODO: Make the Enemy look like Corona Virus
     #TODO: Make multiple copies of the Enemy
@@ -128,6 +139,19 @@ while True:
         if bulletNewY > 380: 
             bullet.hideturtle()
             bulletState = "ready"
+            bullet.setposition(0, -420)
+        else:
+            if isCollided(enemy, bullet):
+                # reset bullet
+                bullet.hideturtle()
+                bulletState = "ready"
+                bullet.setposition(0, -420)
+                # reset enemy
+                # TODO: reset enemies in different way - hide or remove
+                enemySpeed=0
+                enemy.setposition(-540, 420)
+
+            # TODO: check collision between Enemies and Player + Handle GameOver
 
 
 
