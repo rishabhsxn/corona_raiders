@@ -6,6 +6,15 @@ import os
 import math
 import random
 
+# for cross-platform sound
+import platform
+
+if platform.system() == "Windows":
+    try:
+        import winsound
+    except:
+        print("Winsound module not available!! Please install.")
+
 WIDTH = 1300
 HEIGHT = 1000
 NUM_OF_ENEMIES = 5
@@ -100,7 +109,7 @@ def fireBullet():
 
     # fire the bullet only when it is in the ready state
     if bulletState == "ready":
-        os.system("aplay laser.wav&")
+        playSound("laser.wav")
         bulletState = "fired"
         x = player.xcor()
         y = player.ycor()
@@ -115,6 +124,18 @@ screen.onkeypress(moveRight, "d")
 screen.onkeypress(fireBullet, "space")
 
 
+#------------------------Sound function------------------------
+
+def playSound(soundFile):
+    # Windows
+    if platform.system() == "Windows":
+        winsound.PlaySound(soundFile, winsound.SND_ASYNC)
+    # Linux
+    if platform.system() == "Linux":
+        os.system("aplay -q {}&".format(soundFile))
+    # Mac
+    else:
+        os.system("afplay {}&".format(soundFile))
 
 #------------------------Define Collision function for 2 objects------------------------
 
@@ -159,7 +180,7 @@ while True:
 
             
         if isCollided(enemy, bullet):
-            os.system("aplay explosion.wav&")
+            playSound("explosion.wav")
             # reset bullet
             bullet.hideturtle()
             bulletState = "ready"
