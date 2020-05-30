@@ -11,6 +11,9 @@ HEIGHT = 1000
 NUM_OF_ENEMIES = 5
 
 
+#------------------------Register Shapes------------------------
+turtle.register_shape("corona.gif")
+
 #------------------------Setup screen------------------------
 screen = turtle.Screen()
 screen.setup(WIDTH, HEIGHT)
@@ -127,7 +130,7 @@ enemies = []
 for i in range(NUM_OF_ENEMIES):
     enemy = turtle.Turtle()
     enemy.color("#43BE31")
-    enemy.shape("circle")
+    enemy.shape("corona.gif")
     enemy.penup()
     enemy.speed(0)
     x = random.randint(-520, 520)
