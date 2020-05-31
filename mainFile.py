@@ -1,6 +1,5 @@
 # corona raiders
 
-# TODO: Add a House in which Enemy cannot enter
 # TODO: Add a Stay Home Stay Safe! message with changing color - green and red (depending on player's position in home or outside)
 # TODO: Change color of Player to green when corona hits and Add a cross to his face
 # TODO: Show the Game Over message when corona hits player
@@ -123,6 +122,7 @@ bullet.shapesize(0.5, 0.5)
 bullet.penup()
 bullet.speed(0)
 bullet.setheading(90)
+bullet.setposition(-WIDTH, 0)
 
 
 # Define bullet movement
