@@ -1,8 +1,6 @@
 # corona raiders
 
-# TODO: Add a Stay Home Stay Safe! message with changing color - green and red (depending on player's position in home or outside)
-# TODO: Change color of Player to green when corona hits and Add a cross to his face
-# TODO: Show the Game Over message when corona hits player
+# TODO: when corona hits player add a cross to his face
 
 #------------------------imports------------------------
 import turtle
@@ -155,7 +153,7 @@ def moveRight():
         messagePen.color("red")
         messagePen.clear()
         messagePen.write(message, False, align="center", font=("Arial", 20, "bold"))
-        
+
 
 #------------------------Create Player's Bullet------------------------
 bullet = turtle.Turtle()
@@ -277,7 +275,13 @@ for i in range(NUM_OF_ENEMIES):
     enemies.append(enemy)
 
 
-while True:
+#-----------------------More functions-----------------------
+
+def exitGame():
+    quit()
+
+runFlag = 1
+while runFlag==1:
     # move all enemies
     for enemy in enemies:
         enemy.move()
@@ -289,7 +293,6 @@ while True:
             bulletState = "ready"
             bullet.setposition(0, -420)
             # reset enemy
-            # TODO: reset enemies in different way - hide or remove
             x = random.randint(-520, 520)
             y = random.randint(240, 280)
             enemy.enemyTurtle.setposition(x, y)
@@ -300,7 +303,30 @@ while True:
             scorePen.clear()
             scorePen.write(scoreString, False, align="left", font=("Arial", 14, "normal"))
 
-        # TODO: check collision between Enemies and Player + Handle GameOver
+        if isCollided(enemy.enemyTurtle, player):
+            playSound("coffin_dance.wav")
+            player.setposition(0, -300)
+            runFlag = 2
+            
+            # reset keybinds
+            screen.onkeypress(None, "a")
+            screen.onkeypress(None, "d")
+            screen.onkeypress(None, "space")
+
+            screen.onkeypress(exitGame, "Return")
+            
+            messagePen.color("white")
+            messagePen.setposition(0,20)
+            messagePen.write("GAME OVER.", False, align="center", font=("Arial", 50, "bold"))
+            messagePen.setposition(-200,-20)
+            scoreString = "Score: {}".format(score)
+            messagePen.write(scoreString, False, align="left", font=("Arial", 20, "normal"))
+            messagePen.setposition(0, -130)
+            messagePen.color("red")
+            messagePen.write("Press Enter to exit !", False, align="center", font=("Arial", 16, "normal"))
+            player.color("#43BE31")
+
+            break
         
 
     # move bullet
@@ -321,4 +347,5 @@ while True:
 
 
 
-# delay = input("Press Enter to finish!")
+
+delay = input("Press Enter to finish!")
