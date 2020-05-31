@@ -68,6 +68,17 @@ pen.fd(HOUSE_HEIGHT)
 pen.hideturtle()
 
 
+#------------------------Add Initials------------------------
+initialsPen = turtle.Turtle()
+initialsPen.speed(0)
+initialsPen.color("white")
+initialsPen.penup()
+initialsPen.setposition(550, -430)
+initialsPen.write("Rishabh Saxena", False, align="right", font=("Arial", 14, "normal"))
+initialsPen.setposition(550, -450)
+initialsPen.write("Poojan Soni", False, align="right", font=("Arial", 14, "normal"))
+initialsPen.hideturtle()
+
 #------------------------Register Shapes------------------------
 screen.register_shape("corona.gif")
 screen.register_shape("deadPlayer2.gif")
