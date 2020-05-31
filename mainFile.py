@@ -105,7 +105,8 @@ messagePen.hideturtle()
 player = turtle.Turtle()
 player.color("white")
 player.shape("player2.gif")
-#player.shapesize(2, 2)
+# player.resizemode("auto")
+player.shapesize(1, 3)
 player.penup()
 player.speed(0)
 player.setposition(0, -300)
@@ -219,9 +220,9 @@ def playSound(soundFile):
 
 #------------------------Define Collision function for 2 objects------------------------
 
-def isCollided(t1, t2):
+def isCollided(t1, t2, minDistance=15):
     distance = math.sqrt(math.pow(t1.xcor() - t2.xcor(), 2) + math.pow(t1.ycor() - t2.ycor(), 2))
-    if distance < 15:
+    if distance < minDistance:
         return True
     else:
         return False
@@ -309,7 +310,7 @@ while runFlag==1:
             scorePen.clear()
             scorePen.write(scoreString, False, align="left", font=("Arial", 14, "normal"))
 
-        if isCollided(enemy.enemyTurtle, player):
+        if isCollided(enemy.enemyTurtle, player, 40):
             playSound("coffin_dance.wav")
             player.setposition(0, -300)
             runFlag = 2
