@@ -7,8 +7,10 @@ import turtle
 import os
 import math
 import random
+import time
 
 soundFlag = 0
+exitFlag = 0
 
 # for cross-platform sound
 import platform
@@ -21,7 +23,7 @@ if platform.system() == "Windows":
 
 WIDTH = 1300
 HEIGHT = 1000
-NUM_OF_ENEMIES = 5
+NUM_OF_ENEMIES = 15
 
 PLAYER_SPEED = 15
 BULLET_SPEED = 20
@@ -174,9 +176,10 @@ bulletState = "ready"       # 1. ready - ready to be fired      2. fired - bulle
 def fireBullet():
     global bulletState      # global is used so that we modify the variable globally
     global soundFlag
+    global messageColor
 
-    # fire the bullet only when it is in the ready state
-    if bulletState == "ready":
+    # fire the bullet only when it is in the ready state And Player is not in House
+    if bulletState == "ready" and messageColor=="red":
         if soundFlag == 0:
             playSound("corona_go.wav")
             soundFlag = 1
@@ -278,7 +281,8 @@ for i in range(NUM_OF_ENEMIES):
 #-----------------------More functions-----------------------
 
 def exitGame():
-    quit()
+    global exitFlag
+    exitFlag = 1
 
 runFlag = 1
 while runFlag==1:
@@ -313,7 +317,6 @@ while runFlag==1:
             screen.onkeypress(None, "d")
             screen.onkeypress(None, "space")
 
-            screen.onkeypress(exitGame, "Return")
             
             messagePen.color("white")
             messagePen.setposition(0,20)
@@ -321,9 +324,7 @@ while runFlag==1:
             messagePen.setposition(-200,-20)
             scoreString = "Score: {}".format(score)
             messagePen.write(scoreString, False, align="left", font=("Arial", 20, "normal"))
-            messagePen.setposition(0, -130)
-            messagePen.color("red")
-            messagePen.write("Press Enter to exit !", False, align="center", font=("Arial", 16, "normal"))
+            
             player.color("#43BE31")
 
             break
@@ -341,11 +342,26 @@ while runFlag==1:
             bulletState = "ready"
             bullet.setposition(0, -420)
 
-    turtle.delay(5)     # this increase or decrease gameplay - Lower is faster
+    turtle.delay(2)     # this increase or decrease gameplay - Lower is faster
+
+exitPen = turtle.Turtle()
+exitPen.hideturtle()
+exitPen.penup()
+isWhite = False
+screen.onkeypress(exitGame, "Return")
+
+while exitFlag==0:
+    exitPen.setposition(0, -130)
+    if isWhite:
+        isWhite = False
+        exitPen.color("black")
+    else:
+        isWhite = True
+        exitPen.color("white")
+
+    exitPen.write("Press Enter to exit !", False, align="center", font=("Arial", 16, "normal"))
+    time.sleep(1)
+    exitPen.clear()
 
 
-
-
-
-
-delay = input("Press Enter to finish!")
+# delay = input("Press Enter to finish!")
