@@ -70,7 +70,9 @@ pen.hideturtle()
 
 #------------------------Register Shapes------------------------
 screen.register_shape("corona.gif")
-
+screen.register_shape("deadPlayer2.gif")
+screen.register_shape("player2.gif")
+screen.register_shape("drop2.gif")
 
 #------------------------Setup Score------------------------
 score = 0
@@ -102,8 +104,8 @@ messagePen.hideturtle()
 
 player = turtle.Turtle()
 player.color("white")
-player.shape("classic")
-player.shapesize(2, 2)
+player.shape("player2.gif")
+#player.shapesize(2, 2)
 player.penup()
 player.speed(0)
 player.setposition(0, -300)
@@ -161,8 +163,8 @@ def moveRight():
 bullet = turtle.Turtle()
 bullet.hideturtle()
 bullet.color("yellow")
-bullet.shape("triangle")
-bullet.shapesize(0.5, 0.5)
+bullet.shape("drop2.gif")
+#bullet.shapesize(0.5, 0.5)
 bullet.penup()
 bullet.speed(0)
 bullet.setheading(90)
@@ -325,7 +327,8 @@ while runFlag==1:
             scoreString = "Score: {}".format(score)
             messagePen.write(scoreString, False, align="left", font=("Arial", 20, "normal"))
             
-            player.color("#43BE31")
+	    
+            player.shape("deadPlayer2.gif")
 
             break
         
