@@ -83,6 +83,19 @@ scoreString = "Score: {}".format(score)
 scorePen.write(scoreString, False, align="left", font=("Arial", 14, "normal"))
 scorePen.hideturtle()
 
+
+#------------------------Setup Stay Home Message------------------------
+messageColor = "green"
+messagePen = turtle.Turtle()
+messagePen.speed(0)
+messagePen.color(messageColor)
+messagePen.penup()
+messagePen.setposition(0, 420)
+message = "STAY HOME - STAY SAFE"
+messagePen.write(message, False, align="center", font=("Arial", 20, "bold"))
+messagePen.hideturtle()
+
+
 #------------------------Create main Player------------------------
 
     #TODO: Make player look like a human being with a hand sanitizer (gun)
@@ -102,16 +115,47 @@ player.setheading(90)
 playerSpeed = PLAYER_SPEED
 
 def moveLeft():
+    global messageColor
+
     x = player.xcor()
     x -= playerSpeed
     if x > -530:
         player.setx(x)
 
+    if x < LEFT_HOUSE_WALL and messageColor=="green":
+        messageColor = "red"
+        message = "STAY HOME - STAY SAFE"
+        messagePen.color("red")
+        messagePen.clear()
+        messagePen.write(message, False, align="center", font=("Arial", 20, "bold"))
+    elif x < RIGHT_HOUSE_WALL and x > LEFT_HOUSE_WALL and messageColor=="red":
+        messageColor = "green"
+        message = "STAY HOME - STAY SAFE"
+        messagePen.color("green")
+        messagePen.clear()
+        messagePen.write(message, False, align="center", font=("Arial", 20, "bold"))
+
 def moveRight():
+    global messageColor
+
     x = player.xcor()
     x += playerSpeed
     if x < 530:
         player.setx(x)
+
+    if x > LEFT_HOUSE_WALL and x < RIGHT_HOUSE_WALL and messageColor=="red":
+        messageColor = "green"
+        message = "STAY HOME - STAY SAFE"
+        messagePen.color("green")
+        messagePen.clear()
+        messagePen.write(message, False, align="center", font=("Arial", 20, "bold"))
+    elif x > RIGHT_HOUSE_WALL and messageColor=="green":
+        messageColor = "red"
+        message = "STAY HOME - STAY SAFE"
+        messagePen.color("red")
+        messagePen.clear()
+        messagePen.write(message, False, align="center", font=("Arial", 20, "bold"))
+        
 
 #------------------------Create Player's Bullet------------------------
 bullet = turtle.Turtle()
