@@ -28,19 +28,20 @@ NUM_OF_ENEMIES = 5
 
 PLAYER_SPEED = 15
 BULLET_SPEED = 20
-ENEMY_SPEED_X = 1
-ENEMY_SPEED_Y = 0.7
+ENEMY_SPEED_X = 4
+ENEMY_SPEED_Y = 2
 
+HOUSE_HEIGHT = 180
+HOUSE_WIDTH = 120
+LEFT_HOUSE_WALL = -(HOUSE_WIDTH/2)
+RIGHT_HOUSE_WALL = HOUSE_WIDTH/2
+UPPER_HOUSE_WALL = -400 + HOUSE_HEIGHT
 
 #------------------------Setup screen------------------------
 screen = turtle.Screen()
 screen.setup(WIDTH, HEIGHT)
 screen.bgcolor("black")
 screen.title("Corona Raiders")
-
-#------------------------Register Shapes------------------------
-# turtle.register_shape("corona.gif")
-screen.register_shape("corona.gif")
 
 pen = turtle.Turtle()
 pen.speed(0)
@@ -53,7 +54,23 @@ for parallel_sides in range(2):
     pen.lt(90)
     pen.fd(800)
     pen.lt(90)
+pen.penup()
+# make house
+pen.fd(550 + HOUSE_WIDTH/2)
+pen.pendown()
+pen.color("#FAC42F")
+pen.lt(90)
+pen.fd(HOUSE_HEIGHT)
+pen.lt(90)
+pen.fd(HOUSE_WIDTH)
+pen.lt(90)
+pen.fd(HOUSE_HEIGHT)
+
 pen.hideturtle()
+
+
+#------------------------Register Shapes------------------------
+screen.register_shape("corona.gif")
 
 
 #------------------------Setup Score------------------------
@@ -187,9 +204,21 @@ class Enemy:
 
         self.enemyTurtle.setposition(currentX, currentY)
 
+        # check collisions with Boundaries
         if currentX > 530 or currentX < -530:
             self.speedX *= -1
         if currentY > 380 or currentY < -380:
+            self.speedY *= -1
+
+        # check collision with House
+        # left wall
+        if currentY < UPPER_HOUSE_WALL and abs(LEFT_HOUSE_WALL - currentX) < 15:
+            self.speedX *= -1
+        # right wall
+        elif currentY < UPPER_HOUSE_WALL and abs(RIGHT_HOUSE_WALL - currentX) < 15:
+            self.speedX *= -1
+        # upper wall
+        elif currentX > LEFT_HOUSE_WALL and currentX < RIGHT_HOUSE_WALL and abs(UPPER_HOUSE_WALL - currentY) < 15:
             self.speedY *= -1
 
 # create and store multiple Enemies using List
