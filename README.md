@@ -11,10 +11,10 @@ This is a small creative game made using Python library - Turtle. The gameplay i
 * You get 10 points for killing 1 virus.
 * You get infected if the virus gets too close to you.
 * __(Best one)__ Wait for the sound effect when you kill a virus or get infected.   
-    
+
 </br>
-</br>
-##### How to run:  
+
+##### How to run:    
 In the project repository, run the mainFile.py using Python3
 ```bash
 python3 mainFile.py
