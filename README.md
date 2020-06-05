@@ -14,7 +14,8 @@ This is a small creative game made using Python library - Turtle. The gameplay i
     
 </br>
 </br>
-##### How to run:  
+
+##### How to run:    
 In the project repository, run the mainFile.py using Python3
 ```bash
 python3 mainFile.py
